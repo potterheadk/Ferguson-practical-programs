@@ -1,3 +1,5 @@
+//backtracking
+
 #include <stdio.h>
 #include <stdbool.h>
 bool diag(int r, int c, int n, char (*mat)[n])
