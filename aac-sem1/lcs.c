@@ -1,5 +1,5 @@
 // longest common subsequence
-
+//dynamic -programming
 #include <stdio.h>
 #include <string.h>
 int main()
