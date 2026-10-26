@@ -1,0 +1,100 @@
+<!-- Question: Create a webpage that loads student records from a local JSON file using HTML, external CSS, JavaScript and jQuery/AJAX.
+Requirements
+1. Create a data.json file containing at least five student records.
+ Each record should contain a roll number, name and course.
+2. Add a Load Students button.
+3. When clicked, use XMLHttpRequest to fetch the JSON file asynchronously.
+4. Display a loading message while the request is in progress.
+5. Parse the response using JSON.parse().
+6. Display the student records in an HTML table with columns 
+for roll number, name and course.
+7. Display an error message if the request fails or returns 
+an unsuccessful HTTP status.
+8. Add a Clear button to clear the table and status message.
+9. Use external CSS to style the table and buttons.
+Important constraints
+- Use XMLHttpRequest for this version; do not use fetch().
+- Keep index.html, style.css and data.json in the same folder.
+- Run the page through a local web server if opening the JSON file directly causes browser restrictions.
+Hints
+Remember this sequence:
+
+new XMLHttpRequest() → onload → check status →
+JSON.parse(responseText) → loop through records → 
+display the table. -->
+
+
+<html>
+
+<head>
+    <title>Load Student Records</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h2>Student Records</h2>
+
+    <button onclick="loadStudents()">Load Students</button>
+    <button onclick="clearData()">Clear</button>
+
+    <p id="status"></p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Course</th>
+            </tr>
+        </thead>
+
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script>
+        function loadStudents() {
+            let xhr = new XMLHttpRequest();
+
+            document.getElementById("status").innerHTML =
+                "Loading students...";
+
+            xhr.open("GET", "data.json", true);
+
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    let students = JSON.parse(xhr.responseText);
+                    let data = "";
+
+                    for (let i = 0; i < students.length; i++) {
+                        data += "<tr>";
+                        data += "<td>" + students[i].roll + "</td>";
+                        data += "<td>" + students[i].name + "</td>";
+                        data += "<td>" + students[i].course + "</td>";
+                        data += "</tr>";
+                    }
+
+                    document.getElementById("tableBody").innerHTML = data;
+                    document.getElementById("status").innerHTML =
+                        "Students loaded successfully!";
+                } else {
+                    document.getElementById("status").innerHTML =
+                        "Error loading student records!";
+                }
+            };
+
+            xhr.onerror = function () {
+                document.getElementById("status").innerHTML =
+                    "Network error! Could not load data.";
+            };
+
+            xhr.send();
+        }
+
+        function clearData() {
+            document.getElementById("tableBody").innerHTML = "";
+            document.getElementById("status").innerHTML = "";
+        }
+    </script>
+</body>
+
+</html>

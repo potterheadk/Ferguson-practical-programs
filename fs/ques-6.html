@@ -1,0 +1,217 @@
+<!-- Question: Create an Interactive College Explorer webpage using
+ HTML5, external CSS, JavaScript and jQuery.
+
+Create index.html and style.css in the same folder. 
+The webpage must contain all the following features.
+1. Country and capital dropdown
+Create a dropdown containing at least five countries.
+ When the user selects a country, display its capital and change the displayed text's CSS style. Add a simple CSS animation to the page heading.
+2. jQuery DOM traversal
+Create nested HTML elements representing a Department → 
+Teacher → Students hierarchy. Add five buttons to highlight 
+the relevant elements using jQuery:
+- Highlight the immediate parent using .parent().
+- Highlight all ancestors using .parents().
+- Highlight direct children using .children().
+- Highlight the first child using .first().
+- Highlight the last child using .last().
+Use .css() to apply highlighting.
+3. Drag-and-drop board
+Display a draggable image and two drop zones named 
+Classroom and Laboratory. When the image is dropped into 
+either zone, display a message identifying the selected zone.
+
+Use the HTML drag-and-drop events and dataTransfer.
+4. Geolocation
+Add a Get My Location button. When clicked, request the
+ user's geographical coordinates and display the latitude 
+ and longitude. Handle permission denial or other errors.
+5. Canvas drawing
+Create a Canvas element. Use JavaScript to draw:
+- One filled rectangle.
+- One circle with an outline.
+6. SVG graphic
+Display a star using inline SVG and the polygon element.
+ Give the star a fill colour and a visible outline.
+7. Video player
+Embed a local video using <video>, <source> and the controls attribute.
+8. Styling and layout
+Use the external style.css file to style headings, buttons, 
+dropdowns, drop zones and the hierarchy. Add hover effects to buttons and give each section a clear layout.
+Conditions
+- Use jQuery for the DOM traversal buttons.
+- Use JavaScript for geolocation, Canvas and drag-and-drop
+ functionality.
+- Use HTML5 for SVG and video.
+- Do not use inline CSS; keep styling in style.css.
+- You may use a placeholder image and a local video file for 
+testing. If no video file is available, keep the player markup in place.
+- Handle errors where relevant. -->
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>College Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+
+    <h1>College Explorer</h1>
+
+    <!-- Country and Capital -->
+    <section>
+        <h2>Country and Capital</h2>
+
+        <select id="country" onchange="capital()">
+            <option value="New Delhi">India</option>
+            <option value="Washington, D.C.">USA</option>
+            <option value="Tokyo">Japan</option>
+            <option value="Paris">France</option>
+            <option value="London">UK</option>
+        </select>
+
+        <p id="cap">Select a country</p>
+    </section>
+
+    <!-- jQuery DOM Traversal -->
+    <section>
+        <h2>Department Hierarchy</h2>
+
+        <div id="dept">
+            Department
+            <div class="teacher">
+                Teacher
+                <div class="students">
+                    <p>Student 1</p>
+                    <p>Student 2</p>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="parent()">Parent</button>
+        <button onclick="parents()">Parents</button>
+        <button onclick="children()">Children</button>
+        <button onclick="first()">First</button>
+        <button onclick="last()">Last</button>
+    </section>
+
+    <!-- Drag and Drop -->
+    <section>
+        <h2>Drag and Drop</h2>
+
+        <img id="pic" src="https://placehold.co/100x70" draggable="true" ondragstart="drag(event)">
+
+        <div class="drop" ondragover="allow(event)" ondrop="drop(event)">Classroom</div>
+
+        <div class="drop" ondragover="allow(event)" ondrop="drop(event)">Laboratory</div>
+
+        <p id="msg"></p>
+    </section>
+
+    <!-- Geolocation -->
+    <section>
+        <h2>Geolocation</h2>
+        <button onclick="location1()">Get Location</button>
+        <p id="loc"></p>
+    </section>
+
+    <!-- Canvas -->
+    <section>
+        <h2>Canvas Drawing</h2>
+
+        <canvas id="c" width="300" height="150"></canvas>
+
+        <svg width="200" height="150">
+            <rect x="10" y="10" width="60" height="40" fill="blue" />
+
+        </svg>
+
+        <svg>
+
+            <circle cx="100" cy="75" r="30" fill="yellow" stroke="black" />
+        </svg>
+
+        <svg>
+            <polygon points="150,20 180,80 120,80" fill="green" />
+        </svg>
+
+    </section>
+
+    <!-- SVG -->
+    <section>
+        <h2>SVG Star</h2>
+
+        <svg width="200" height="150">
+            <polygon points="100,10 120,60 170,60 130,90 145,130 100,105 55,130 70,90 30,60 80,60" fill="yellow"
+                stroke="black" />
+        </svg>
+    </section>
+
+    <!-- Video -->
+    <section>
+        <h2>Video</h2>
+
+        <video width="300" controls>
+            <source src="video.mp4" type="video/mp4">
+        </video>
+    </section>
+
+    <script>
+        function capital() {
+            $("#cap").text("Capital: " + $("#country").val());
+            $("#cap").css("color", "blue");
+        }
+
+        function parent() {
+            $(".students").parent().css("background", "yellow");
+        }
+
+        function parents() {
+            $(".students").parents().css("background", "lightblue");
+        }
+
+        function children() {
+            $("#dept").children().css("background", "lightgreen");
+        }
+
+        function first() {
+            $("#dept").children().first().css("background", "orange");
+        }
+
+        function last() {
+            $("#dept").children().last().css("background", "pink");
+        }
+
+        function allow(e) {
+            e.preventDefault();
+        }
+
+        function drag(e) {
+            e.dataTransfer.setData("text", e.target.id);
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            let id = e.dataTransfer.getData("text");
+            e.currentTarget.appendChild(document.getElementById(id));
+            document.getElementById("msg").innerText =
+                "Dropped into " + e.currentTarget.innerText;
+        }
+
+        function location1() {
+            navigator.geolocation.getCurrentPosition(function (p) {
+                document.getElementById("loc").innerText =
+                    "Latitude: " + p.coords.latitude +
+                    " Longitude: " + p.coords.longitude;
+            });
+        }
+    </script>
+
+</body>
+
+</html>

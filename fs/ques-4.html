@@ -1,0 +1,120 @@
+<!-- Question: Create a webpage containing a message textarea
+  with a live character counter and message preview. 
+  Use HTML, external CSS, JavaScript and jQuery.
+Requirements
+1. Create a textarea that accepts a maximum of 200 characters.
+2. Display the number of characters typed, updating it as the user types.
+3. Display the remaining characters.
+4. Show a warning when fewer than 20 characters remain.
+5. Display a live preview of the message below the textarea.
+6. Add a progress bar that updates according to the number of 
+characters typed.
+7. Add a Clear button that clears the textarea, counter and preview.
+8. Use jQuery for events and DOM updates, and apply a fade or 
+slide effect to the preview.
+9. Style the page using an external CSS file.
+These requirements are adapted from the live character counter
+ and message preview exercise in your updated revision notes. 
+ Pasted markdown(3).md
+
+
+Hints — not the solution:
+
+Revise .on("input", function() {}), .val(), .text(), .css(),
+ .fadeIn() and .slideUp(). For the progress bar, remember
+  that the percentage is:
+    percentage = (chars-typed/200) *100
+  -->
+
+
+
+<html>
+
+<head>
+    <title>Live Message Counter</title>
+    <style>
+        .progress {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        #bar {
+            width: 0%;
+            height: 100%;
+            background-color: #4caf50;
+            transition: width 0.1s ease-in-out;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Message Character Counter</h2>
+
+        <textarea id="message" maxlength="200" placeholder="Type your message here..."></textarea>
+
+        <p>Characters typed: <span id="typed">0</span></p>
+        <p>Characters remaining: <span id="remaining">200</span></p>
+
+        <p id="warning"></p>
+
+        <div class="progress">
+            <div id="bar"></div>
+        </div>
+
+        <h3>Message Preview</h3>
+        <div id="preview"></div>
+
+        <br>
+
+        <button id="clearBtn">Clear</button>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#message").on("input", function () {
+                let msg = $("#message").val();
+                let count = msg.length;
+                let remaining = 200 - count;
+                let percentage = (count / 200) * 100;
+
+                $("#typed").text(count);
+                $("#remaining").text(remaining);
+
+                if (remaining < 20) {
+                    $("#warning").text("Warning: Less than 20 characters remaining!");
+                } else {
+                    $("#warning").text("");
+                }
+
+                $("#bar").css("width", percentage + "%");
+
+                if (msg == "") {
+                    $("#preview").slideUp();
+                } else {
+                    $("#preview").text(msg).slideDown();
+                }
+            });
+
+            $("#clearBtn").click(function () {
+                $("#message").val("");
+                $("#typed").text("0");
+                $("#remaining").text("200");
+                $("#warning").text("");
+                $("#bar").css("width", "0%");
+                $("#preview").text("").slideUp();
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

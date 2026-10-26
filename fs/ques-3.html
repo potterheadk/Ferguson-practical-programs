@@ -1,0 +1,96 @@
+<!-- Question: Create a webpage containing a calculator that accepts two numbers and performs arithmetic operations using HTML, external CSS, JavaScript and jQuery.
+Requirements
+1. Accept two numbers from the user.
+2. Provide buttons for Addition, Subtraction, Multiplication, Division and Remainder.
+3. Use jQuery to read the input values and handle button clicks.
+4. Disable the operation buttons until both inputs contain valid numbers.
+5. Use a JavaScript switch statement to select the operation.
+6. Handle division by zero and remainder by zero by displaying an error message.
+7. Display the result on the same page without reloading it.
+8. Use CSS to style the calculator and highlight invalid inputs. -->
+
+
+<html>
+
+<head>
+    <script src="jquery-4.0.0.min.js"></script>
+</head>
+
+<body>
+    <div class="calculator">
+        <h2>Calculator</h2>
+
+        First Number:
+        <input type="number" id="num1" oninput="validate()">
+        <br>
+
+        Second Number:
+        <input type="number" id="num2" oninput="validate()">
+        <br><br>
+
+        <button class="operation" onclick="calculate('+')" disabled>+</button>
+        <button class="operation" onclick="calculate('-')" disabled>-</button>
+        <button class="operation" onclick="calculate('*')" disabled>*</button>
+        <button class="operation" onclick="calculate('/')" disabled>/</button>
+        <button class="operation" onclick="calculate('%')" disabled>%</button>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function validate() {
+            let n1 = $("#num1").val();
+            let n2 = $("#num2").val();
+
+            if (n1 != "" && n2 != "") {
+                $(".operation").prop("disabled", false);
+            }
+            else {
+                $(".operation").prop("disabled", true);
+            }
+
+            $("#result").html("");
+        }
+
+        function calculate(op) {
+            let a = Number($("#num1").val());
+            let b = Number($("#num2").val());
+            let ans;
+
+            switch (op) {
+                case '+':
+                    ans = a + b;
+                    break;
+
+                case '-':
+                    ans = a - b;
+                    break;
+
+                case '*':
+                    ans = a * b;
+                    break;
+
+                case '/':
+                    if (b == 0) {
+                        $("#result").html("Error: Division by zero!");
+                        return;
+                    }
+                    ans = a / b;
+                    break;
+
+                case '%':
+                    if (b == 0) {
+                        $("#result").html("Error: Remainder by zero!");
+                        return;
+                    }
+                    ans = a % b;
+                    break;
+            }
+
+            $("#result").html("Result: " + ans);
+
+        }
+    </script>
+</body>
+
+</html>

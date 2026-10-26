@@ -1,0 +1,27 @@
+[
+    {
+        "roll": 1,
+        "name": "Amit",
+        "course": "Computer Science"
+    },
+    {
+        "roll": 2,
+        "name": "Priya",
+        "course": "Data Science"
+    },
+    {
+        "roll": 3,
+        "name": "Rahul",
+        "course": "Computer Science"
+    },
+    {
+        "roll": 4,
+        "name": "Sneha",
+        "course": "Information Technology"
+    },
+    {
+        "roll": 5,
+        "name": "Karan",
+        "course": "Data Science"
+    }
+]
