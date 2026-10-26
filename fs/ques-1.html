@@ -1,0 +1,84 @@
+<!-- Create a webpage containing a student registration form with name,
+ email, age, gender, course selection and a submit button. Use 
+ external CSS for styling. On submission, validate the inputs and 
+ display the student's details on the same page without reloading it. -->
+
+<html>
+
+<head>
+    <title>Student registration form</title>
+    <link rel="stylesheet" href="ques-1.css">
+</head>
+
+<body>
+    <form id="studentForm">
+        Enter Name:<input type="text" id="name" required><br><br>
+        Enter Email:<input type="email" id="emailId" required><br><br>
+        Enter age:<input type="number" id="age" min="1" max="100" required><br><br>
+
+        select gender:
+        <label>
+            <input type="radio" id="male" name="gender" value="Male" required>
+            Male
+        </label>
+
+        <label>
+            <input type="radio" id="female" name="gender" value="Female">
+            Female
+        </label>
+
+        Select Course:
+        <select id="course" required>
+            <option value="">-- Choose --</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Data Science">Data Science</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("studentForm").addEventListener
+            ("submit", function (event) {
+                event.preventDefault();
+                let name = document.getElementById("name").value;
+                let email = document.getElementById("emailId").value;
+                let age = document.getElementById("age").value;
+                let course = document.getElementById("course").value;
+
+                let male = document.getElementById("male");
+                let female = document.getElementById("female");
+
+                let gender = "";
+
+                if (male.checked) {
+                    gender = "Male";
+                }
+                else if (female.checked) {
+                    gender = "Female";
+                }
+                else {
+                    alert("select gender boii!");
+                    return;
+                }
+
+
+                if (age <= 0 || age > 120) {
+                    alert("Enter a valid age");
+                    return;
+                }
+
+                document.getElementById("result").innerHTML =
+                    "<h3>Students Details</h3" +
+                    "Name: " + name + "<br>" +
+                    "Email: " + email + "<br>" +
+                    "Age: " + age + "<br>" +
+                    "Gender: " + gender + "<br>" +
+                    "Course: " + course;
+            })
+    </script>
+</body>
+
+</html>
